@@ -1,1 +1,35 @@
-\subsection{Physics of Diffusion}
+\section{Physics of Diffusion}
+The random motion due to the thermal energy of particles in thermal equilibrium is also called Brownian motion, or simple diffusion.~\cite{Berg1993} The collisions with many smaller particles imparts to the larger particle a (stochastic) force, while the large particle also experiences a drag force.~\cite{deGrooth1999} Both of these forces alongside each other gives rise to the random motion of the larger particle. Instead of explicitly calculating all these forces and resulting dynamics, particles undergoing diffusion can be treated as each particle taking an independent n-dimensional random walk, which is unbiased when the diffusion is isotropic.~\cite{Berg1993} When there is no flow field, the mean displacement of all the particles average out to zero.~\cite{Berg1993}
+
+In one dimension, the mean-squared displacements of a particle over time is given by \begin{equation}
+    \langle x^2\rangle = 2Dt
+\end{equation}
+\noindent
+where $D$ is the diffusion coefficient.~\cite{Berg1993} In the 2D isotropic case, $\langle x^2\rangle$ is the same as $\langle y^2\rangle$, since the motion in any direction is independent of any other. The equality of $\langle x^2\rangle$ and $\langle y^2\rangle$ and their linear proportionality with respect to time can be seen in \Cref{fig:infinite-sqavg_2d_random_walk}. The concentration or probability density of the locations for these particles is a radially symmetric Gaussian, which spreads out inversely proportional to time.~\cite{CaltechNotes} 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/all_means_per_frame.png}
+    \caption{The mean $x$ and $y$ positions of latex beads in room temperature water for multiple trials over time.
+    } 
+    \label{fig:all_means}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/all_variances_per_frame.png}
+    \caption{The $\langle x^2\rangle$ and $\langle y^2\rangle$ of latex beads in room temperature water for multiple trials over time.
+    }
+    \label{fig:all_variances}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/some_hists_10.png}
+    \caption{The histograms $x$ and $y$ positions of latex beads in room temperature water over multiple trials at frames 10, 20, 30, and 40.
+    }
+    \label{fig:some_hists}
+\end{figure}
+
+In one of my P309 labs, I looked at the motion of white latex beads in water under a microscope. The non-zero means in \Cref{fig:all_means} means that for some the systems I was observing, the water had a temperature gradient---predominantly in the $y$-direction, which is also demonstrated by \Cref{fig:some_hists}. \Cref{fig:all_variances} show the near parity between $\langle x^2\rangle$ and $\langle y^2\rangle$ as well as their linear relationship with respect to time up to a point. The histograms in \Cref{fig:some_hists} demonstrates the Gaussian nature of diffusion with the Gaussian flatting over time.
+

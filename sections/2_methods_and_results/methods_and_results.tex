@@ -1,3 +1,188 @@
-\section{Methods and Results}
+\chapter{Methods and Results}
+
+\section{Simulation of 2D Random Walk}
+
+% Explain how 2D Sim works
+We implemented the 2D random walk as two random steps---shown as the dark-blue arrows in \Cref{fig:one-vs-two_per-timestep}---per iteration and not just a single random step---showan as the light-blue arrows in \Cref{fig:one-vs-two_per-timestep}. \Cref{fig:infinite-sqavg_2d_random_walk} shows the result of the 2D case on an infinite domain, when two random walks per iteration is taken. This is because a single random step per iteration for the 2D case would result in a calculated diffusion coefficient which was half of what was expected. The reason for this occurring can be explained by thinking about $N$ number of particles. At large $N$, there will be half which only moves along the $x$-axis and the other half moving only along the $y$-axis during a single random step. Similarly in 3D, the simulation would need to take three random steps per iteration. 
+
+% Briefly explain how 2D Sim works for no-flux
+For a 2D domain with no-flux boundary conditions at all side, we treated particles, which would normally go past it, as hitting a wall and moving in the opposite direction. This corralling behavior flattens out the $\langle x^2\rangle$ and $\langle y^2\rangle$ values as shown in \Cref{fig:finite-sqavg_2d_random_walk}. The 2D Gaussian distribution---shown in \Cref{fig:diff_bounded}---appropriately flattens out radially over time before enough of the particles meet the boundaries.
+
+\begin{figure}[h]
+    \centering
+    \includesvg[width=0.55\linewidth]{images/two_timestep.drawio.svg}
+    \caption{The yellow dashed circle is the possible radial location of the particle---the white circle in the center---after a single random step of fixed radius. The green circle is the farthest possible locations after two random steps of fixed radius. The light blue arrows point to the locations of the particle after a single random step if constrained to just the x or y axis. The dark blue arrows point to the locations of the particle after two random steps if constrained to just the x or y axis.
+    }
+    \label{fig:one-vs-two_per-timestep}
+\end{figure}
+
+\begin{figure}
+    \centering
+        \centering
+        \includegraphics[width=1.0\linewidth]{images/SqAvgValues_t_2000000_dim_2.png}
+        \caption{$\langle x^2\rangle$ and $\langle y^2\rangle$ values of the 2D random walk on an infinite domain.Input parameters chosen so that $D=1$ gridSize$^2s^{-1}$, where gridSize $=1$.}
+        \label{fig:infinite-sqavg_2d_random_walk}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/SqAvgValues_t_1034.png}
+        \label{subfig:finite}
+    \caption{$\langle x^2\rangle$ and $\langle y^2\rangle$ values of the 2D random walk on a finite domain. Input parameters chosen so that $D=1$ gridSize$^2s^{-1}$, where gridSize $=1/101$.}
+    \label{fig:finite-sqavg_2d_random_walk}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/diff_t_000.png}
+        \caption{Positions of particles at $t = 0$ iterations.}
+        \label{subfig:diff_000}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/diff_t_100.png}
+        \caption{Positions of particles at $t = 100$ iterations.}
+        \label{subfig:diff_100}
+    \end{subfigure}
+    \medskip
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/diff_t_200.png}
+        \caption{Positions of particles at $t = 200$ iterations.}
+        \label{subfig:diff_200}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/diff_t_300.png}
+        \caption{Positions of particles at $t = 300$ iterations.}
+        \label{subfig:diff_300}
+    \end{subfigure}
+    \caption{Visualizations of the positions of particles from the same simulation as \Cref{fig:finite-sqavg_2d_random_walk} during iterations 0--300. The grid effect is caused by starting all particles at a single position at $t=0$.
+    }
+    \label{fig:diff_bounded}
+\end{figure}
+
+\section{Spatial distribution of basal bodies in the membrane}
+
+We begin by considering a parsimonious set of biophysical mechanisms governing flagellar patterning in the membrane, namely  membrane diffusion of basal bodies with a specified inhibition zone associated with each unit that does not arise from an underlying \mbox{FlhF/G-governed} mechanism.
+
+\subsection{Random walk with inhibition zone}
+We consider the diffusive random walk of basal bodies in a two-dimensional domain describing the cylindrical ``barrel" of a rod-shaped cell, with periodic boundary conditions in the azimuthal direction ($x$-direction) and no-flux boundary conditions in the $y$-direction to approximate the hemispherical end caps. Cells start out without any basal bodies. Basal bodies are then randomly seeded according to a rate given by $r_i$. To model the growth and division of the cell (along the $y$-direction), we use an experimentally realistic description of cell-size homeostasis, following~\cite{Osella2014}.  
+
+In~\Cref{fig:cell_length_dist,fig:cell_cycle_duration}, we show the cell length and cell cycle duration distributions from our simulations, respectively, in agreement with~\cite{Osella2014}.  In~\Cref{tab:rw_inhib_vals}, we give the numerical values (or ranges of values) of simulation parameters: diffusion constant, $D$; system size, $L_x, L_y$; mesh size, $\Delta x, \Delta y$; time step, $\Delta t$; size of inhibition zone, $\ell$; insertion rate, $r_i$.
+
+When performing the random walk, we had the simulation move the basal bodies one at a time in a random order. When the simulation moved a basal body, it treated entering the inhibition zone of another to be the same as the no-flux boundary condition---moving in the opposite direction if possible. A basal body was considered to be entering other's inhibition zone when its center entered said zone. 
+\Cref{fig:small-protein-number_cell-length_small,fig:small-protein-number_cell-length_large} show the number of basal bodies in the membrane and the cell length as a function of time, for small and large inhibition zones, respectively, with an insertion rate of $r_i = 1/1350$ $s^{-1}$. \Cref{fig:large-protein-number_cell-length_small,fig:large-protein-number_cell-length_large} show these quantities for an insertion rate of $r_i = 1$ $s^{-1}$. Additionally, \Cref{fig:small-density_length-small,fig:medium-density_length-small,fig:large-density_length-small} give the density of basal bodies with small inhibition zones in the membrane for insertion rates of $r_i = 1/1350$ $s^{-1}$, $r_i = 13/1350$ $s^{-1}$, and $r_i = 1$ $s^{-1}$, respectively.
+
+Through visual inspection of the cells using a sequence of images identical to those found in \Cref{fig:10_1_cellcycle,fig:10_13_cellcycle,fig:10_1350_cellcycle,fig:40_1_cellcycle,fig:40_1350_cellcycle}, we saw that the more dense cells were more regular and had stronger patterning. We then used the coefficient of variation of the density for the duration of a simulation---shown in \Cref{fig:coeff_var}---as a measure of regularity. We also calculated the effective insertion rate with respect to the inputted insertion rate, which is shown in \Cref{fig:eff_insertion_rate}.
+
+\begin{figure}
+    \centering
+    \includesvg[width=1.0\linewidth]{images/length_post_div_dist.svg}
+    \caption{Cell lengths post division for 444 divisions.
+    }
+    \label{fig:cell_length_dist}
+\end{figure}
+\begin{figure}
+    \centering
+    \includesvg[width=1.0\linewidth]{images/doubling_time.svg}
+    \caption{Time between divisions for 444 divisions.
+    }
+    \label{fig:cell_cycle_duration}
+\end{figure}
+
+\begin{table}
+\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Parameter & Value \\
+		\hline
+		$L_x$ & 3 $\mu {\rm m}$ \\
+		$L_y$ & 3 $\mu {\rm m}$  \\
+		$N_x$ & 101 \\
+		$N_y$ & 101 \\
+		$\Delta x$ & $L_x/(N_x-1)$ $\mu {\rm m}$ \\
+		$\Delta y$ & $L_y/(N_y-1)$ $\mu {\rm m}$\\
+        $D$ & $5 \times 10^{-3}$ $\mu {\rm m}^2/s$ \\ % \Delta x^2/2 \Delta t
+		$\Delta t$ & $\Delta x^2/2D$ \\
+		$\ell$ & 10 to 40 in mesh units \\
+		$r_i$ & 1/1350, 13/1350, 1 ${\rm s}^{-1}$ \\
+		\hline
+	\end{tabular}
+    \caption{Parameter values used in the simulations of the 2D random walk with inhibition zones.
+    }
+    \label{tab:rw_inhib_vals} 
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size10_Rate1/proteinCountLen.png}
+\caption{Protein count and cell length for parameters $\ell=10$ and $r_i=1/1350$.
+}
+\label{fig:small-protein-number_cell-length_small}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size40_Rate1/proteinCountLen.png}
+\caption{Protein count and cell length for parameters $\ell=40$ and $r_i=1/1350$.
+}
+\label{fig:small-protein-number_cell-length_large}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size10_Rate1350/proteinCountLen.png}
+\caption{Protein count and cell length for parameters $\ell=10$ and $r_i=1$.
+}
+\label{fig:large-protein-number_cell-length_small}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size40_Rate1350/proteinCountLen.png}
+\caption{Protein count and cell length for parameters $\ell=40$ and $r_i=1$.
+}
+\label{fig:large-protein-number_cell-length_large}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size10_Rate1/proteinDensity.png}
+\caption{Protein density for parameters $\ell=10$ and $r_i=1/1350$.
+}
+\label{fig:small-density_length-small}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size10_Rate13/proteinDensity.png}
+\caption{Protein density for parameters $\ell=10$ and $r_i=13/1350$.
+}
+\label{fig:medium-density_length-small}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/Size10_Rate1350/proteinDensity.png}
+\caption{Protein density for parameters $\ell=10$ and $r_i=1$.
+}
+\label{fig:large-density_length-small}
+\end{figure}
 
 \input{sections/2_methods_and_results/positions_within_cell}
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/coeffVarDens.png}
+\caption{Coefficient of variation of the density with respect to the input insertion rate.
+}
+\label{fig:coeff_var}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=1.0\linewidth]{images/effInsertRate.png}
+\caption{The effective insertion rate with respect to the input insertion rate.
+}
+\label{fig:eff_insertion_rate}
+\end{figure}

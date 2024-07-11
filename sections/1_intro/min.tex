@@ -1,0 +1,47 @@
+\section{Min protein model}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1.0\linewidth]{min_fig.pdf}
+\caption{The density plots show Min protein concentrations~($\mu {\rm m}^{-1}$) as a function of space~($\mu {\rm m}$, vertical axis) and time~(sec, horizontal axis).  In these simulations, the bacterial cell length was $L=10 \mu {\rm m}$. Values for initial conditions are given in \cref{tab:min_model}, consisting of a combination of {\it in vivo} and {\it in vitro} values from \cite{Bonny2013}. MinD and MinE concentrations were initialized to $c_D=840 \mu {\rm m}^{-1}$ and $c_E=580 \mu {\rm m}^{-1}$.}
+\label{fig:min_model}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Parameter & Value \\
+		\hline
+		$\omega_D$ & 0.1 $s^{-1}$ \\
+		$\omega_{dD}$ & 8.8 $\times$ $10^{-3}$ $\mu {\rm m}/s$ \\
+		$\omega_E$ & 6.9 $\times$ $10^{-5}$ $\mu {\rm m}/s$  \\
+		$\omega_{ed}$ & 0.139 $\mu {\rm m}/s$ \\
+		$\omega_{de,c}$ & 0.08 $s^{-1}$ \\
+		$\omega_{de, m}$ & 1.5 $s^{-1}$ \\
+		$\omega_e$ & 0.5 $s^{-1}$\\
+		$c_{max}$ & 5.4 $\times$ $10^3$ $\mu {\rm m}^{-3}$ \\
+		$D_D$ & 28 $\mu {\rm m}^2/s$ \\
+		$D_E$ & 28 $\mu {\rm m}^2/s$ \\
+		$D_d$ &0.06 $\mu {\rm m}^2/s$ \\
+		$D_e$ & 0.3 $\mu {\rm m}^2/s$ \\
+		$D_{de}$ &0.06 $\mu {\rm m}^2/s$ \\
+	\hline
+	\end{tabular}
+\caption{Parameter values for Min model simulations in 1D in a static cell.
+}\label{tab:min_model} 
+\end{table}
+
+Min proteins have been studied extensively using in vivo and in vitro assays, and robust mechanistic models of their dynamics have been developed.~\cite{Bonny2013} Many aspects of the Min protein dynamics can be studied using a one-dimensional cellular geometry, along the cell’s long (pole to pole) axis.~\cite{Bonny2013} The reaction-diffusion model can be written in one spatial dimension as:
+\begin{eqnarray}
+\frac{\partial c_D}{\partial t} & = & D_D \frac{\partial^2 c_D}{\partial x^2} - c_D (\omega_D + \omega_{dD} c_D) (c_{max} - c_d - c_{de})/c_{max} + (\omega_{de, m} + \omega_{de, c}) c_{de}, \\
+\frac{\partial c_E}{\partial t} & = & D_E \frac{\partial^2 c_E}{\partial x^2} - \omega_E c_E c_d + \omega_e c_e + \omega_{de, c}  c_{de}, \\
+\frac{\partial c_d}{\partial t} & = & D_d \frac{\partial^2 c_d}{\partial x^2} + c_D (\omega_D + \omega_{dD} c_d) (c_{max} - c_d - c_{de})/c_{max} - \omega_E c_E c_d - \omega_{ed} c_e c_d, \\
+\frac{\partial c_{de}}{\partial t} & = & D_{de} \frac{\partial^2 c_{de}}{\partial x^2} + \omega_E c_E c_d+ \omega_{ed} c_e c_d -(\omega_{de, m} + \omega_{de, c}) c_{de}, \\
+\frac{\partial c_e}{\partial t} & = & D_e \frac{\partial^2 c_e}{\partial x^2} + \omega_{ed,m} c_{de} - \omega_{ed} c_e c_d - \omega_e c_e, 
+\end{eqnarray}
+
+\noindent
+$c_D$  and $c_E$ describe the concentration of cytosolic MinD and MinE along the bacterial long axis, while $c_d$, $c_{de}$, and $c_e$ are the corresponding concentrations for membrane-bound MinD, MinDE complex, and MinE, respectively.~\cite{Bonny2013} These equations can be understood as follows: Cytoplasmic MinD associates with the lipid bilayer in its ATP-bound form, and in turn recruits MinC and MinE to the membrane. MinC is active as a divisome antagonist only in its MinD bound form.The binding of MinE stimulates the ATPase activity of MinD and triggers the detachment of MinD from the membrane as MinD’s bound ATP becomes hydrolyzed. Once MinC/D complex is released, MinC becomes deactivated. MinE binding to membrane-bound MinD forms the MinDE complex, which can dissociate by MinD and MinE both detaching from the membrane, or it can dissociate by only MinD leaving the membrane and MinE remaining in membrane-bound form. 
+
+Solving these reaction-diffusion equations described by a system of parabolic PDEs (using Matlab) subject to no-flux boundary conditions on a {\it static} domain using nominal physical values of parameters does not yield expected oscillations in concentrations.  However, increasing the effective diffusion constant for cytosolic MinD and MinE, consistent with the expected effect of cellular growth on the cytoplasmic concentrations, oscillations are observed as shown in Figure \ref{fig:min_model}. 

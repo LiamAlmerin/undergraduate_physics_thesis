@@ -1,24 +1,50 @@
-\documentclass[prl,12pt,letterpaper]{revtex4-2}
+\documentclass[12pt]{report}
+\usepackage{authblk}
+\usepackage{titlesec}
 \usepackage[utf8]{inputenc}
+\usepackage[bottom=2.5cm, right=2.5cm, left=2.5cm, top=2.5cm]{geometry}
+\usepackage{svg}
+\usepackage{tocbibind}
+\usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{cleveref}
 
+\sloppy
 
+\titleformat{\chapter}[block]
+  {\normalfont\huge\bfseries}{\thechapter.}{1em}{\Huge}
+\titlespacing*{\chapter}{0pt}{-19pt}{0pt}
 
+\title{\textbf{Numerical Simulation of the Diffusion of Protein Assemblies on a Growing 
+and Dividing Domain}}
+\author{{\Large	William~Clapp}\\ \bigskip
+    {\LARGE\textit{Supervisor}} \\ \medskip
+    {\Large Sima Setayeshgar}}
+\affil{Indiana University, Bloomington, IN 47405}
+\date{\today}
 
 
 \begin{document}
-\title{Undergraduate Thesis}
-\author{William Clapp}
 
-\maketitle	
+\maketitle
+
+\tableofcontents
+\listoffigures
+\listoftables
 
 \include{sections/1_intro/intro}
-
 \include{sections/2_methods_and_results/methods_and_results}
+\include{sections/3_conclusion_future_work/conclusion_future_work}
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\include{sections/4_appendix/appendix}
 
 \end{document}
